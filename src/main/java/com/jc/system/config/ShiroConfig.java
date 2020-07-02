@@ -49,7 +49,7 @@ public class ShiroConfig {
             @Qualifier("hashedCredentialsMatcher")HashedCredentialsMatcher hashedCredentialsMatcher){
         MyRealm myRealm = new MyRealm();
         //装配凭证匹配器到myRealm中
-        myRealm.setCredentialsMatcher(hashedCredentialsMatcher);
+//        myRealm.setCredentialsMatcher(hashedCredentialsMatcher);
         myRealm.setAuthorizationCachingEnabled(false);
         return myRealm;
     }
@@ -76,7 +76,7 @@ public class ShiroConfig {
     public HashedCredentialsMatcher hashedCredentialsMatcher(){
         HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();
         //设置加密算法
-        credentialsMatcher.setHashAlgorithmName("MD5");
+       credentialsMatcher.setHashAlgorithmName("MD5");
         //设置shiro缓存的凭证字符串编码
         credentialsMatcher.setStoredCredentialsHexEncoded(true);
         //设置hash频次

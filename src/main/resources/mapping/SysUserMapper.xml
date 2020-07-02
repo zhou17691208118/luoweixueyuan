@@ -27,14 +27,25 @@
         email,
         headportrait
     </sql>
-    
-    <select id="findUserInfoByLoginName" parameterType="string" resultMap="sysUserMap">
+
+    <!--前台登录-->
+    <select id="findUserInfoByEmail" parameterType="string" resultMap="sysUserMap">
         select
         <include refid="sysUser_colums"/>
         from
         tb_sys_user u
         where
-        u.loginName = #{loginName}
+        u.email = #{email}
+    </select>
+
+    <!--后台登录-->
+    <select id="findUserInfoByPhonenum" parameterType="string" resultMap="sysUserMap">
+        select
+        <include refid="sysUser_colums"/>
+        from
+        tb_sys_user u
+        where
+        u.phonenum = #{phonenum}
     </select>
     <!--根据用户名查询其权限-->
     <select id="findPermissionsByUserName" parameterType="string" resultType="sysPermission">

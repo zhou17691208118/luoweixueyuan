@@ -14,7 +14,7 @@ public interface SysUserService {
      * 根据登录名查询用户信息
      *
      */
-    public SysUser findUserInfoByLoginName(String loginName);
+    public SysUser findUserInfoByEmail(String email);
 
     /**
      * 根据用户名查询用户已经拥有的权限
@@ -29,4 +29,10 @@ public interface SysUserService {
      * @return 添加成功或者失败
      */
     public boolean addNewSysUser(String loginName, String password, String phonenum);
+    /**
+     * 后台登录
+     * @param password,phonenum 登录手机号
+     * @return
+     */
+    public SysUser findUserInfoByPhonenum(String phonenum);
 }

@@ -19,8 +19,8 @@ public class SysUserServiceImpl implements SysUserService {
     private SysUserDao sysUserDao;
     //根据登录名查询用户信息
     @Override
-    public SysUser findUserInfoByLoginName(String loginName) {
-        SysUser sysUser = sysUserDao.findUserInfoByLoginName(loginName);
+    public SysUser findUserInfoByEmail(String email) {
+        SysUser sysUser = sysUserDao.findUserInfoByEmail(email);
         return sysUser;
     }
     //根据登录名查询当前用户权限集合
@@ -34,6 +34,12 @@ public class SysUserServiceImpl implements SysUserService {
     public boolean addNewSysUser(String loginName, String password, String phonenum) {
         int i = sysUserDao.addNewSysUser(loginName, password, phonenum);
         return i>0?true : false;
+    }
+
+    //根据手机号查询用户信息
+    @Override
+    public SysUser findUserInfoByPhonenum(String phonenum) {
+        return sysUserDao.findUserInfoByPhonenum(phonenum);
     }
 
 

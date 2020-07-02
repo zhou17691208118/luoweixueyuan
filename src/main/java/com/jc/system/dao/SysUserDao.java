@@ -16,7 +16,7 @@ public interface SysUserDao {
      * 根据登录名查询用户信息
      *
      */
-    public SysUser findUserInfoByLoginName(@Param("loginName") String loginName);
+    public SysUser findUserInfoByEmail(@Param("email") String email);
 
 
     /**
@@ -33,4 +33,11 @@ public interface SysUserDao {
      */
      public int addNewSysUser(@Param("loginName") String loginName, @Param("password") String password,
                                @Param("phonenum") String phonenum);
+
+    /**
+     * 后台登录
+     * @param password,phonenum 登录名(用户名)
+     * @return
+     */
+    public SysUser findUserInfoByPhonenum(@Param("phonenum") String phonenum);
 }

@@ -29,8 +29,8 @@ public class MyRealm extends AuthorizingRealm {
         //从身份集合中获取当前主体的身份信息
         Object principal = principalCollection.getPrimaryPrincipal();
         if (!StringUtils.isEmpty(principal)){
-            String loginName=(String)principal;
-            List<SysPermission> sysPermissions = userService.findPermissionsByLoginName(loginName);
+            String email=(String)principal;
+            List<SysPermission> sysPermissions = userService.findPermissionsByLoginName(email);
             //权限去重
             Set<String> perms = new HashSet<>();
             for (SysPermission perm: sysPermissions) {
@@ -52,13 +52,13 @@ public class MyRealm extends AuthorizingRealm {
         //获取身份信息
         Object principal = token.getPrincipal();
         if (!StringUtils.isEmpty(principal)){
-            String loginName = (String)principal;
+            String email = (String)principal;
             //调用业务逻辑查询用户信息
-            SysUser sysUser = userService.findUserInfoByLoginName(loginName);
+            SysUser sysUser = userService.findUserInfoByEmail(email);
             //加密加盐
-            ByteSource source=ByteSource.Util.bytes(loginName);
+//            ByteSource source=ByteSource.Util.bytes(loginName);
             //带加盐的认证
-            SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(loginName, sysUser.getPassword(), source, getName());
+            SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(email, sysUser.getPassword(), getName());
             return authenticationInfo;
         }
         return null;

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @Controller
@@ -28,48 +29,75 @@ public class SysUserController {
     @Autowired
     private SysUserService userService;
 
-    //登录处理
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login (@RequestParam("loginName") String loginName,
+    //前端登录处理
+    @RequestMapping(value = "/qtLogin", method = RequestMethod.POST)
+    public String qtLogin (@RequestParam("email") String email,
                          @RequestParam("password") String password,
-                         @RequestParam("phonenum") String phonenum,
                          Model model, HttpSession session) {
-        if (loginName != null && loginName != "" && password != null && password != "" &&
-                phonenum != null && phonenum != "") {
-
+        if (email != null && email != "" && password != null && password != "" ) {
                 Subject subject = SecurityUtils.getSubject();
-                UsernamePasswordToken token = new UsernamePasswordToken(loginName, password);
+                UsernamePasswordToken token = new UsernamePasswordToken(email, password);
             /**
              * 使用shiro后，这些步骤统一交给shiro处理
              */
                 try {
                     subject.login(token);
                     if (subject.isAuthenticated()) {
-                        session.setAttribute("loginName", loginName);
-                        System.out.println(loginName);
+                        session.setAttribute("email", email);
+                        System.out.println(email);
                         //根据传入的用户名查询用户的所有信息
-                        SysUser user = userService.findUserInfoByLoginName(loginName);
+                        SysUser user = userService.findUserInfoByEmail(email);
                         System.out.println(user);
 
                     } else {
                         model.addAttribute("error", "登陆失败，请重新登录");
-                        return "redirect:login";
+                        return "redirect:main1";
                     }
                 } catch (UnknownAccountException un) {
-                    model.addAttribute("error", "用户名不存在");
-                    return "redirect:login";
+                    model.addAttribute("error", "邮箱不存在");
+                    return "redirect:roleLogin";
                 } catch (IncorrectCredentialsException ice) {
-                    model.addAttribute("error", "用户名或密码错误");
-                    return "redirect:login";
+                    model.addAttribute("error", "邮箱或密码错误");
+                    return "redirect:roleLogin";
                 } catch (AuthenticationException ae) {
                     ae.printStackTrace();
                 }
         } else {
-            model.addAttribute("error", "请输入完整的用户名密码");
+            model.addAttribute("error", "请输入完整的邮箱和密码");
+            return "redirect:roleLogin";
+        }
+        return "redirect:roleLogin";
+    }
+
+    //后台登录
+    @RequestMapping(value = "/htLogin", method = RequestMethod.POST)
+    public String htLogin(@RequestParam("password") String password, @RequestParam("phonenum") String phonenum,
+                           Model model, HttpSession session){
+        System.out.println(password);
+        System.out.println(phonenum);
+        if (password != null && password != "" && phonenum != null && phonenum != ""){
+            Subject subject = SecurityUtils.getSubject();
+            UsernamePasswordToken token = new UsernamePasswordToken(phonenum, password);
+            subject.login(token);
+            if (subject.isAuthenticated()) {
+                session.setAttribute("phonenum", phonenum);
+                System.out.println(phonenum);
+                //根据传入的用户名查询用户的所有信息
+                SysUser user = userService.findUserInfoByPhonenum(phonenum);
+
+                System.out.println(user);
+
+            } else {
+                model.addAttribute("error", "手机号或密码错误，请重新登录");
+                return "redirect:login";
+            }
+        }else {
+            model.addAttribute("error", "请输入完整的用户手机号");
             return "redirect:login";
         }
-        return "redirect:login";
+        return null;
     }
+
     //普通用户有权访问的模块
     @RequiresPermissions(value = {"user_forbidden"})
     //@RequestMapping("/memberView")
@@ -106,5 +134,6 @@ public class SysUserController {
         boolean bool = userService.addNewSysUser(loginName, password, phonenum);
         return bool?"redirect:add":"error";
     }
+
 
 }
