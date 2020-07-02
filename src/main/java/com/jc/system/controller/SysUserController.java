@@ -101,7 +101,7 @@ public class SysUserController {
 
     //增加新用户
     @ResponseBody
-    @RequestMapping("/addNewSysUser")
+    @RequestMapping("/reg")
     public String addNewSysUser(String loginName, String password, String phonenum){
         boolean bool = userService.addNewSysUser(loginName, password, phonenum);
         return bool?"redirect:add":"error";
