@@ -26,6 +26,11 @@ public interface SysUserDao {
      */
     public List<SysPermission> findPermissionsByUserName(String loginName);
 
-    public List<SysUser> findAll();
-
+    /**
+     * 添加新用户
+     * @param loginName,password,phonenum 登录名(用户名)
+     * @return 添加成功或者失败
+     */
+     public int addNewSysUser(@Param("loginName") String loginName, @Param("password") String password,
+                               @Param("phonenum") String phonenum);
 }

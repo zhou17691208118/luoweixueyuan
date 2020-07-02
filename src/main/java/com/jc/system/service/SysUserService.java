@@ -23,5 +23,10 @@ public interface SysUserService {
      */
     public List<SysPermission> findPermissionsByLoginName(String loginName);
 
-    public List<SysUser> findAll();
+    /**
+     * 添加新用户
+     * @param loginName,password,phonenum 登录名(用户名)
+     * @return 添加成功或者失败
+     */
+    public boolean addNewSysUser(String loginName, String password, String phonenum);
 }

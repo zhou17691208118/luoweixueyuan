@@ -31,8 +31,9 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public List<SysUser> findAll() {
-        return sysUserDao.findAll();
+    public boolean addNewSysUser(String loginName, String password, String phonenum) {
+        int i = sysUserDao.addNewSysUser(loginName, password, phonenum);
+        return i>0?true : false;
     }
 
 

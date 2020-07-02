@@ -22,7 +22,10 @@
         loginName,
         password,
         state,
-        createTime
+        createTime,
+        phonenum,
+        email,
+        headportrait
     </sql>
     
     <select id="findUserInfoByLoginName" parameterType="string" resultMap="sysUserMap">
@@ -50,8 +53,12 @@
         and u.loginName=#{loginName}
     </select>
 
-    <select id="findAll" parameterType="SysUser" resultMap="sysUserMap">
-        SELECT * FROM tb_sys_user
-    </select>
 
+    <!--添加新用户-->
+    <insert id="addNewSysUser" parameterType="com.jc.system.entity.SysUser">
+        INSERT
+        INTO
+        tb_sys_user(loginName, password, phonenum)
+        VALUES ( #{loginName}, #{password}, #{phonenum})
+    </insert>
 </mapper>

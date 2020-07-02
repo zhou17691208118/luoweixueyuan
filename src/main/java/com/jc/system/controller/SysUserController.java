@@ -50,6 +50,7 @@ public class SysUserController {
                         //根据传入的用户名查询用户的所有信息
                         SysUser user = userService.findUserInfoByLoginName(loginName);
                         System.out.println(user);
+
                     } else {
                         model.addAttribute("error", "登陆失败，请重新登录");
                         return "redirect:login";
@@ -98,13 +99,12 @@ public class SysUserController {
         return "main";
     }
 
+    //增加新用户
     @ResponseBody
-    @RequestMapping("findAll")
-    public List<SysUser> findUserInfoByLoginName(Model model){
-        List<SysUser> userList = userService.findAll();
-        System.out.println(userList);
-        model.addAttribute("userList", userList);
-        return userList;
+    @RequestMapping("/addNewSysUser")
+    public String addNewSysUser(String loginName, String password, String phonenum){
+        boolean bool = userService.addNewSysUser(loginName, password, phonenum);
+        return bool?"redirect:add":"error";
     }
 
 }
