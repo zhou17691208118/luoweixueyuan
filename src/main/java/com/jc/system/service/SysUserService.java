@@ -34,5 +34,15 @@ public interface SysUserService {
      * @param password,phonenum 登录手机号
      * @return
      */
-    public SysUser findUserInfoByPhonenum(String phonenum);
+    public SysUser userTypeByPhonenum(String phonenum);
+
+    /**
+     * 查询所有用户信息
+     */
+    public List<SysUser> findSysUserInfo();
+
+    /**
+     * 根据id删除用户信息
+     */
+    public boolean deleteSysUserById(int id);
 }

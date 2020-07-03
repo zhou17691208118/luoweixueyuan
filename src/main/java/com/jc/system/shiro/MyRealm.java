@@ -55,6 +55,7 @@ public class MyRealm extends AuthorizingRealm {
             String email = (String)principal;
             //调用业务逻辑查询用户信息
             SysUser sysUser = userService.findUserInfoByEmail(email);
+
             //加密加盐
 //            ByteSource source=ByteSource.Util.bytes(loginName);
             //带加盐的认证

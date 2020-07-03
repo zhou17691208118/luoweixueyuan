@@ -18,5 +18,15 @@ public class SysRoleServiceImpl implements SysRoleService {
         List<SysRole> roleList = sysRoleDao.loadRoleAll();
         return roleList;
     }
+    //通过角色信息查询用户角色
+    @Override
+    public SysRole findRoleInfoByRoleName(String role_name) {
+        return sysRoleDao.findRoleInfoByRoleName(role_name);
+    }
+
+    @Override
+    public SysRole findRoleInfoByLoginName(String loginName) {
+        return sysRoleDao.findRoleInfoByLoginName(loginName);
+    }
 
 }

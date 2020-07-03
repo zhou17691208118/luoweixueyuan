@@ -12,6 +12,18 @@
         <result property="role_name" column="role_name"/>
         <result property="role_desc" column="role_desc"/>
         <result property="if_vilid" column="if_vilid"/>
+        <collection property="userList" ofType="com.jc.system.entity.SysUser">
+            <id property="userId" column="USERID"/>
+            <result property="loginName" column="loginName"/>
+            <result property="password" column="password"/>
+            <result property="state" column="state"/>
+            <result property="createTime" column="createTime"/>
+            <result property="phonenum" column="phonenum"/>
+            <result property="email" column="email"/>
+            <result property="headportrait" column="headportrait"/>
+            <result property="bystate" column="bystate"/>
+            <result property="wechat" column="wechat"/>
+        </collection>
     </resultMap>
     <sql id="sysRole_columns">
         role_id,
@@ -20,11 +32,25 @@
         if_vilid
     </sql>
     <!--展示全部角色信息-->
-    <select id="loadRoleAll" resultType="com.jc.system.entity.SysRole">
-        select
-            <include refid="sysRole_columns"></include>
-        from
-            tb_sys_role
+    <select id="loadRoleAll" resultMap="sysRoleMap">
+         SELECT headportrait, role_name, loginName ,phonenum, PASSWORD
+         FROM tb_sys_user a LEFT JOIN tb_user_role b ON a.userid=b.user_id LEFT JOIN tb_sys_role c ON
+         b.role_id = c.role_id
+    </select>
+
+    <!--通过角色信息查询用户角色-->
+    <select id="findRoleInfoByRoleName" resultMap="sysRoleMap">
+        SELECT headportrait, role_name, loginName ,phonenum, PASSWORD
+        FROM tb_sys_user a LEFT JOIN tb_user_role b ON a.userid=b.user_id LEFT JOIN tb_sys_role c ON
+        b.role_id = c.role_id
+        where role_name = #{role_name}
+    </select>
+    <!--通过用户名查询用户角色-->
+    <select id="findRoleInfoByLoginName" resultMap="sysRoleMap">
+        SELECT headportrait, role_name, loginName ,phonenum, PASSWORD
+        FROM tb_sys_user a LEFT JOIN tb_user_role b ON a.userid=b.user_id LEFT JOIN tb_sys_role c ON
+        b.role_id = c.role_id
+        where loginName = #{loginName}
     </select>
 
 </mapper>

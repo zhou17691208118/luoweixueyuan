@@ -15,7 +15,8 @@ public class SysUser implements Serializable {
     private String phonenum;//用户手机号
     private String email; //邮箱
     private String headportrait; //头像
-
+    private String bystate; //购买状态
+    private String wechat; //微信号
 
     @Override
     public String toString() {
@@ -28,6 +29,8 @@ public class SysUser implements Serializable {
                 ", phonenum='" + phonenum + '\'' +
                 ", email='" + email + '\'' +
                 ", headportrait='" + headportrait + '\'' +
+                ", bystate='" + bystate + '\'' +
+                ", wechat='" + wechat + '\'' +
                 '}';
     }
 
@@ -93,5 +96,21 @@ public class SysUser implements Serializable {
 
     public void setHeadportrait(String headportrait) {
         this.headportrait = headportrait;
+    }
+
+    public String getBystate() {
+        return bystate;
+    }
+
+    public void setBystate(String bystate) {
+        this.bystate = bystate;
+    }
+
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
     }
 }

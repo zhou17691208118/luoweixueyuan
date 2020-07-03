@@ -3,6 +3,7 @@ package com.jc.system.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 public class SysRole implements Serializable {
@@ -11,6 +12,8 @@ public class SysRole implements Serializable {
     private String role_desc;   //角色描述
     private int if_vilid;       //是否有效
 
+    private List<SysUser> userList;
+
     @Override
     public String toString() {
         return "SysRole{" +
@@ -18,6 +21,7 @@ public class SysRole implements Serializable {
                 ", role_name='" + role_name + '\'' +
                 ", role_desc='" + role_desc + '\'' +
                 ", if_vilid=" + if_vilid +
+                ", userList=" + userList +
                 '}';
     }
 
@@ -51,5 +55,13 @@ public class SysRole implements Serializable {
 
     public void setIf_vilid(int if_vilid) {
         this.if_vilid = if_vilid;
+    }
+
+    public List<SysUser> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<SysUser> userList) {
+        this.userList = userList;
     }
 }

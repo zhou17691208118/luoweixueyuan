@@ -7,23 +7,36 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.management.relation.Role;
 import java.util.List;
 
-@Controller
+@RestController
 public class SysRoleController {
     @Autowired
     private SysRoleService roleService;
+
     //获取所有角色信息
     @RequestMapping("/loadRoleAll")
-    public String loadRoleAll(Model model,
-                              @RequestParam(defaultValue = "1",value = "page")Integer page){
-//        PageHelper.startPage(page,2);
+    public List<SysRole> loadRoleAll(){
         List<SysRole> roleList = roleService.loadRoleAll();
-//        PageInfo<SysRole> pageInfo = new PageInfo<>(roleList);
-//        model.addAttribute("pageInfo",pageInfo);
-        model.addAttribute("roleList",roleList);
-        return "role";
+        return roleList;
+    }
+
+    //通过角色信息查询用户角色
+    @RequestMapping("/findRoleInfoByRoleName")
+    public SysRole findRoleInfoByRoleName(String role_name){
+        SysRole role = roleService.findRoleInfoByRoleName(role_name);
+        return role;
+    }
+
+    //通过用户名查询用户角色
+    @RequestMapping("/findRoleInfoByLoginName")
+    public SysRole findRoleInfoByLoginName(String loginName){
+        SysRole roleLists = roleService.findRoleInfoByLoginName(loginName);
+        return roleLists;
     }
 
 }

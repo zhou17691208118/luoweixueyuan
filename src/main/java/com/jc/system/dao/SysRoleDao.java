@@ -2,6 +2,7 @@ package com.jc.system.dao;
 
 import com.jc.system.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,4 +14,15 @@ public interface SysRoleDao {
      */
     public List<SysRole> loadRoleAll();
 
+    /**
+     * 通过角色信息查询用户角色
+     * @return 单个用户角色
+     */
+     public SysRole findRoleInfoByRoleName(@Param("role_name") String role_name);
+
+    /**
+     * 通过用户名查询用户角色
+     * @return 单个用户角色
+     */
+    public SysRole findRoleInfoByLoginName(@Param("loginName") String loginName);
 }

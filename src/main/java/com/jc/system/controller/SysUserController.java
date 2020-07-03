@@ -14,17 +14,14 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
-@Controller
+@RestController
 public class SysUserController {
     @Autowired
     private SysUserService userService;
@@ -44,14 +41,12 @@ public class SysUserController {
                     subject.login(token);
                     if (subject.isAuthenticated()) {
                         session.setAttribute("email", email);
-                        System.out.println(email);
                         //根据传入的用户名查询用户的所有信息
                         SysUser user = userService.findUserInfoByEmail(email);
                         System.out.println(user);
-
                     } else {
                         model.addAttribute("error", "登陆失败，请重新登录");
-                        return "redirect:main1";
+                        return "redirect:roleLogin";
                     }
                 } catch (UnknownAccountException un) {
                     model.addAttribute("error", "邮箱不存在");
@@ -66,7 +61,7 @@ public class SysUserController {
             model.addAttribute("error", "请输入完整的邮箱和密码");
             return "redirect:roleLogin";
         }
-        return "redirect:roleLogin";
+        return "redirect:main1";
     }
 
     //后台登录
@@ -76,26 +71,19 @@ public class SysUserController {
         System.out.println(password);
         System.out.println(phonenum);
         if (password != null && password != "" && phonenum != null && phonenum != ""){
-            Subject subject = SecurityUtils.getSubject();
-            UsernamePasswordToken token = new UsernamePasswordToken(phonenum, password);
-            subject.login(token);
-            if (subject.isAuthenticated()) {
-                session.setAttribute("phonenum", phonenum);
-                System.out.println(phonenum);
-                //根据传入的用户名查询用户的所有信息
-                SysUser user = userService.findUserInfoByPhonenum(phonenum);
-
-                System.out.println(user);
-
-            } else {
-                model.addAttribute("error", "手机号或密码错误，请重新登录");
-                return "redirect:login";
+            SysUser user = userService.userTypeByPhonenum(phonenum);
+            int State = user.getState();
+            System.out.println(State);
+            if (State == 1) {
+                return "redirect:main1";
+            } else if (State == 2) {
+                return "roleLogin";
             }
         }else {
             model.addAttribute("error", "请输入完整的用户手机号");
-            return "redirect:login";
+            return "redirect:roleLogin";
         }
-        return null;
+        return "redirect:main1";
     }
 
     //普通用户有权访问的模块
@@ -128,11 +116,31 @@ public class SysUserController {
     }
 
     //增加新用户
-    @ResponseBody
     @RequestMapping("/reg")
     public String addNewSysUser(String loginName, String password, String phonenum){
         boolean bool = userService.addNewSysUser(loginName, password, phonenum);
         return bool?"redirect:add":"error";
+    }
+
+    //查询所有用户
+    @RequestMapping("/findSysUserInfo")
+    public List<SysUser> findSysUserInfo(){
+        List<SysUser> userList = userService.findSysUserInfo();
+        return userList;
+    }
+
+    //通过email查询单个用户
+    @RequestMapping("/findSysUserInfoByEmail")
+    public SysUser findSysUserInfoByEmail(String email){
+        SysUser userLists = userService.findUserInfoByEmail(email);
+        return userLists;
+    }
+
+    //根据id删除用户信息
+    @RequestMapping("/deleteSysUserById")
+    public String deleteSysUserById(int id){
+        boolean bool = userService.deleteSysUserById(id);
+        return "1";
     }
 
 

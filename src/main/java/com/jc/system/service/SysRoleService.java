@@ -11,4 +11,15 @@ public interface SysRoleService {
      */
     public List<SysRole> loadRoleAll();
 
+    /**
+     * 通过角色信息查询用户角色
+     * @return 单个用户角色
+     */
+    public SysRole findRoleInfoByRoleName(String role_name);
+
+    /**
+     * 通过用户名查询用户角色
+     * @return 单个用户角色
+     */
+    public SysRole findRoleInfoByLoginName(String loginName);
 }

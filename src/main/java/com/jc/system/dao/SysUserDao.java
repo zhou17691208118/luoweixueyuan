@@ -39,5 +39,15 @@ public interface SysUserDao {
      * @param password,phonenum 登录名(用户名)
      * @return
      */
-    public SysUser findUserInfoByPhonenum(@Param("phonenum") String phonenum);
+    public SysUser userTypeByPhonenum(@Param("phonenum") String phonenum);
+
+    /**
+     * 查询所有用户信息
+     */
+     public List<SysUser> findSysUserInfo();
+
+    /**
+     * 根据id删除用户信息
+     */
+     public int deleteSysUserById(int id);
 }

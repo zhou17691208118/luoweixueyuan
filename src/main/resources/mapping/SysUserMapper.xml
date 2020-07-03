@@ -16,6 +16,11 @@
         <result property="password" column="password"/>
         <result property="state" column="state"/>
         <result property="createTime" column="createTime"/>
+        <result property="phonenum" column="phonenum"/>
+        <result property="email" column="email"/>
+        <result property="headportrait" column="headportrait"/>
+        <result property="bystate" column="bystate"/>
+        <result property="wechat" column="wechat"/>
     </resultMap>
     <sql id="sysUser_colums">
         userid,
@@ -25,7 +30,8 @@
         createTime,
         phonenum,
         email,
-        headportrait
+        bystate,
+        wechat
     </sql>
 
     <!--前台登录-->
@@ -39,13 +45,8 @@
     </select>
 
     <!--后台登录-->
-    <select id="findUserInfoByPhonenum" parameterType="string" resultMap="sysUserMap">
-        select
-        <include refid="sysUser_colums"/>
-        from
-        tb_sys_user u
-        where
-        u.phonenum = #{phonenum}
+    <select id="userTypeByPhonenum" parameterType="string" resultMap="sysUserMap">
+        select state from tb_sys_user WHERE phonenum  = #{phonenum}
     </select>
     <!--根据用户名查询其权限-->
     <select id="findPermissionsByUserName" parameterType="string" resultType="sysPermission">
@@ -72,4 +73,21 @@
         tb_sys_user(loginName, password, phonenum)
         VALUES ( #{loginName}, #{password}, #{phonenum})
     </insert>
+
+    <!--查询所有用户信息-->
+     <select id="findSysUserInfo" resultMap="sysUserMap">
+         SELECT
+         <include refid="sysUser_colums"/>
+         from
+         tb_sys_user u
+     </select>
+
+     <!--根据id删除用户信息-->
+     <delete id="deleteSysUserById" parameterType="int">
+         DELETE
+         FROM
+         tb_sys_user
+         WHERE
+         userid= #{userid}
+     </delete>
 </mapper>

@@ -38,8 +38,20 @@ public class SysUserServiceImpl implements SysUserService {
 
     //根据手机号查询用户信息
     @Override
-    public SysUser findUserInfoByPhonenum(String phonenum) {
-        return sysUserDao.findUserInfoByPhonenum(phonenum);
+    public SysUser userTypeByPhonenum(String phonenum) {
+        SysUser sysUser = sysUserDao.userTypeByPhonenum(phonenum);
+        return sysUser;
+    }
+
+    @Override
+    public List<SysUser> findSysUserInfo() {
+        return sysUserDao.findSysUserInfo();
+    }
+
+    @Override
+    public boolean deleteSysUserById(int id) {
+        int i = sysUserDao.deleteSysUserById(id);
+        return i>0?true:false;
     }
 
 
