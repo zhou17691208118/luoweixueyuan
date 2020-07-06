@@ -1,6 +1,8 @@
 package com.jc.system.service;
 
 import com.jc.system.entity.SysRole;
+import com.jc.system.entity.SysUser;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,15 +13,28 @@ public interface SysRoleService {
      */
     public List<SysRole> loadRoleAll();
 
-    /**
-     * 通过角色信息查询用户角色
-     * @return 单个用户角色
-     */
-    public SysRole findRoleInfoByRoleName(String role_name);
 
     /**
-     * 通过用户名查询用户角色
-     * @return 单个用户角色
+     * 通过用户id删除用户角色
      */
-    public SysRole findRoleInfoByLoginName(String loginName);
+    public boolean deleteSysRoleById(int roleId);
+    /**
+     * 将新的用户和角色关系添加到关系表中
+     */
+    public boolean addNewUserRole( int userId);
+    /**
+     * 根据userId删除用户角色信息
+     */
+    public boolean deleteSysUserByUserId(int userId);
+    /**
+     * 通过用户Id获取用户角色信息
+     */
+    public SysUser findUserRoleInfoByUserId(int userId);
+    /**
+     * 根据role_name模糊查询
+     * @param Rname  角色名字
+     * @return  返回SysRole集合
+     */
+    public List<SysRole> getRoleByRoleName(String Rname);
+
 }

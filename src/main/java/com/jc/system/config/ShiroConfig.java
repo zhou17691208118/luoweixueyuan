@@ -24,15 +24,16 @@ public class ShiroConfig {
         filterFactoryBean.setSecurityManager(defaultWebSecurityManager);
         Map<String,String> map=new HashMap<>();
         //定义过滤规则
-        map.put("/main","authc");//需要登录后才能访问的资源
-        map.put("/borrow","authc");
-        //map.put("/one","perms[user_edit]");//需要登录后，且拥有user/edit权限的账户才可访问
-        //map.put("/two","perms[user_forbidden]");//需要登录后，且拥有user/edit权限的账户才可访问
-
-        //被aop注解代替
-        filterFactoryBean.setFilterChainDefinitionMap(map);//需要过滤链的定义
-        filterFactoryBean.setLoginUrl("/indexView");//设置默认登陆的页面
-        filterFactoryBean.setUnauthorizedUrl("/unoauth");//权限不足时访问的页面
+        map.put("/main", "authc");//需要登录后才可以访问的资源
+        map.put("/user", "authc");//需要登录后才可以访问的资源
+        map.put("/role", "authc");//需要登录后才可以访问的资源
+        map.put("/permission", "authc");//需要登录后才可以访问的资源
+        map.put("/loadPage", "authc");//需要登录后才可以访问的资源
+        map.put("/loadRolePage", "authc");//需要登录后才可以访问的资源
+        //定义过滤规则
+        filterFactoryBean.setFilterChainDefinitionMap(map);//需要过滤连的定义
+        filterFactoryBean.setLoginUrl("/login");//设置默认的登录页
+        filterFactoryBean.setUnauthorizedUrl("/unOauth");//权限不足时显示的页面
         return filterFactoryBean;
     }
 

@@ -1,7 +1,6 @@
 package com.jc.system.dao;
 import com.jc.system.entity.SysPermission;
 import com.jc.system.entity.SysUser;
-import com.jc.system.entity.User_Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,7 +26,7 @@ public interface SysUserDao {
     public List<SysPermission> findPermissionsByUserName(String loginName);
 
     /**
-     * 添加新用户
+     * 增加管理员用户角色
      * @param loginName,password,phonenum 登录名(用户名)
      * @return 添加成功或者失败
      */
@@ -49,5 +48,14 @@ public interface SysUserDao {
     /**
      * 根据id删除用户信息
      */
-     public int deleteSysUserById(int id);
+     public int deleteSysUserById(int userId);
+    /**
+     * 获取当前用户最大id
+     */
+    public int getMaxUserId();
+    /**
+     * 通过userId修改用户角色信息
+     */
+    public int updateUserRoleInfo(SysUser sysUser);
+
 }

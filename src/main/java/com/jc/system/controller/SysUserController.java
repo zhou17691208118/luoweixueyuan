@@ -1,7 +1,6 @@
 package com.jc.system.controller;
 
 import com.jc.system.entity.SysUser;
-import com.jc.system.entity.User_Role;
 import com.jc.system.service.SysUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -21,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 import java.util.List;
 
-@RestController
+@Controller
 public class SysUserController {
     @Autowired
     private SysUserService userService;
@@ -41,9 +40,12 @@ public class SysUserController {
                     subject.login(token);
                     if (subject.isAuthenticated()) {
                         session.setAttribute("email", email);
+                        session.setAttribute("password", password);
                         //根据传入的用户名查询用户的所有信息
                         SysUser user = userService.findUserInfoByEmail(email);
+                        SysUser user1 = userService.findUserInfoByEmail(password);
                         System.out.println(user);
+                        System.out.println(password);
                     } else {
                         model.addAttribute("error", "登陆失败，请重新登录");
                         return "redirect:roleLogin";
@@ -68,12 +70,12 @@ public class SysUserController {
     @RequestMapping(value = "/htLogin", method = RequestMethod.POST)
     public String htLogin(@RequestParam("password") String password, @RequestParam("phonenum") String phonenum,
                            Model model, HttpSession session){
-        System.out.println(password);
         System.out.println(phonenum);
+        System.out.println(password);
         if (password != null && password != "" && phonenum != null && phonenum != ""){
             SysUser user = userService.userTypeByPhonenum(phonenum);
+            System.out.println(user);
             int State = user.getState();
-            System.out.println(State);
             if (State == 1) {
                 return "redirect:main1";
             } else if (State == 2) {
@@ -115,7 +117,7 @@ public class SysUserController {
         return "main";
     }
 
-    //增加新用户
+    //注册新用户
     @RequestMapping("/reg")
     public String addNewSysUser(String loginName, String password, String phonenum){
         boolean bool = userService.addNewSysUser(loginName, password, phonenum);
@@ -123,6 +125,7 @@ public class SysUserController {
     }
 
     //查询所有用户
+    @ResponseBody
     @RequestMapping("/findSysUserInfo")
     public List<SysUser> findSysUserInfo(){
         List<SysUser> userList = userService.findSysUserInfo();
@@ -130,16 +133,18 @@ public class SysUserController {
     }
 
     //通过email查询单个用户
+    @ResponseBody
     @RequestMapping("/findSysUserInfoByEmail")
     public SysUser findSysUserInfoByEmail(String email){
-        SysUser userLists = userService.findUserInfoByEmail(email);
-        return userLists;
+//        SysUser userLists = userService.findUserInfoByEmail(email);
+        return userService.findUserInfoByEmail(email);
     }
 
     //根据id删除用户信息
+    @ResponseBody
     @RequestMapping("/deleteSysUserById")
-    public String deleteSysUserById(int id){
-        boolean bool = userService.deleteSysUserById(id);
+    public String deleteSysUserById(int userId){
+        boolean bool = userService.deleteSysUserById(userId);
         return "1";
     }
 

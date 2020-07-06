@@ -66,12 +66,12 @@
     </select>
 
 
-    <!--添加新用户-->
+    <!--添加新用户角色信息-->
     <insert id="addNewSysUser" parameterType="com.jc.system.entity.SysUser">
         INSERT
         INTO
-        tb_sys_user(loginName, password, phonenum)
-        VALUES ( #{loginName}, #{password}, #{phonenum})
+        tb_sys_user(loginName, PASSWORD, phonenum)
+        VALUES( #{loginName}, #{password}, #{phonenum})
     </insert>
 
     <!--查询所有用户信息-->
@@ -90,4 +90,23 @@
          WHERE
          userid= #{userid}
      </delete>
+    <!--获取当前用户最大id-->
+    <select id="getMaxUserId" resultType="int">
+        SELECT
+        max(userid)
+        FROM
+        tb_sys_user
+    </select>
+    <!--修改用户角色信息-->
+    <update id="updateUserRoleInfo" parameterType="com.jc.system.entity.SysUser">
+        update
+        tb_sys_user
+        set
+        loginName = #{loginName},
+        phonenum = #{phonenum},
+        password = #{password}
+        where
+        userid = #{userId}
+    </update>
+
 </mapper>

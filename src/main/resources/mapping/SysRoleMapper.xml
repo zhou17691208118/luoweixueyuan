@@ -38,19 +38,46 @@
          b.role_id = c.role_id
     </select>
 
-    <!--通过角色信息查询用户角色-->
-    <select id="findRoleInfoByRoleName" resultMap="sysRoleMap">
+
+    <!--通过用户id删除用户角色-->
+    <delete id="deleteSysRoleById" parameterType="int">
+        DELETE
+        FROM
+        tb_sys_role
+        WHERE
+        role_id = #{roleId}
+    </delete>
+    <!--将新的用户和角色关系添加到关系表中-->
+    <insert id="addNewUserRole" parameterType="com.jc.system.entity.SysUserRole">
+        INSERT
+        INTO
+        tb_user_role
+        VALUES(#{user_id}, 2)
+    </insert>
+
+    <!--根据userId删除用户角色信息-->
+    <delete id="deleteSysUserByUserId" parameterType="int">
+        DELETE
+        FROM
+        tb_sys_user
+        WHERE
+        userid= #{userid}
+    </delete>
+
+    <!--通过用户id查询用户角色信息-->
+    <select id="findUserRoleInfoByUserId" resultMap="sysRoleMap">
         SELECT headportrait, role_name, loginName ,phonenum, PASSWORD
         FROM tb_sys_user a LEFT JOIN tb_user_role b ON a.userid=b.user_id LEFT JOIN tb_sys_role c ON
         b.role_id = c.role_id
-        where role_name = #{role_name}
+        where userid = #{userid}
     </select>
-    <!--通过用户名查询用户角色-->
-    <select id="findRoleInfoByLoginName" resultMap="sysRoleMap">
+    <!--根据role_name模糊查询-->
+    <select id="getRoleByRoleName" resultMap="sysRoleMap">
         SELECT headportrait, role_name, loginName ,phonenum, PASSWORD
         FROM tb_sys_user a LEFT JOIN tb_user_role b ON a.userid=b.user_id LEFT JOIN tb_sys_role c ON
         b.role_id = c.role_id
-        where loginName = #{loginName}
+        where role_name like "%"#{Rname}"%"
     </select>
+
 
 </mapper>

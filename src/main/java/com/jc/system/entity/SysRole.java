@@ -3,6 +3,7 @@ package com.jc.system.entity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -11,6 +12,7 @@ public class SysRole implements Serializable {
     private String role_name;   //角色名称
     private String role_desc;   //角色描述
     private int if_vilid;       //是否有效
+    private long[] permissionId;//权限组
 
     private List<SysUser> userList;
 
@@ -21,6 +23,7 @@ public class SysRole implements Serializable {
                 ", role_name='" + role_name + '\'' +
                 ", role_desc='" + role_desc + '\'' +
                 ", if_vilid=" + if_vilid +
+                ", permissionId=" + Arrays.toString(permissionId) +
                 ", userList=" + userList +
                 '}';
     }
@@ -55,6 +58,14 @@ public class SysRole implements Serializable {
 
     public void setIf_vilid(int if_vilid) {
         this.if_vilid = if_vilid;
+    }
+
+    public long[] getPermissionId() {
+        return permissionId;
+    }
+
+    public void setPermissionId(long[] permissionId) {
+        this.permissionId = permissionId;
     }
 
     public List<SysUser> getUserList() {

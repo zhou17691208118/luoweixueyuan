@@ -1,6 +1,7 @@
 package com.jc.system.service.impl;
 import com.jc.system.dao.SysRoleDao;
 import com.jc.system.entity.SysRole;
+import com.jc.system.entity.SysUser;
 import com.jc.system.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +19,34 @@ public class SysRoleServiceImpl implements SysRoleService {
         List<SysRole> roleList = sysRoleDao.loadRoleAll();
         return roleList;
     }
-    //通过角色信息查询用户角色
+
     @Override
-    public SysRole findRoleInfoByRoleName(String role_name) {
-        return sysRoleDao.findRoleInfoByRoleName(role_name);
+    public boolean deleteSysRoleById(int roleId) {
+        int i = sysRoleDao.deleteSysRoleById(roleId);
+        return i>0?true:false;
     }
 
     @Override
-    public SysRole findRoleInfoByLoginName(String loginName) {
-        return sysRoleDao.findRoleInfoByLoginName(loginName);
+    public boolean addNewUserRole(int userId) {
+        int i = sysRoleDao.addNewUserRole(userId);
+        return i>0?true:false;
     }
+
+    @Override
+    public boolean deleteSysUserByUserId(int userId) {
+        int i = sysRoleDao.deleteSysUserByUserId(userId);
+        return i>0?true:false;
+    }
+
+    @Override
+    public SysUser findUserRoleInfoByUserId(int userId) {
+        return sysRoleDao.findUserRoleInfoByUserId(userId);
+    }
+
+    @Override
+    public List<SysRole> getRoleByRoleName(String Rname) {
+        return sysRoleDao.getRoleByRoleName(Rname);
+    }
+
 
 }
